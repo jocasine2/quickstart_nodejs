@@ -1,5 +1,6 @@
 version: "3"
 services:
+  
   app:
     container_name: ${APP_NAME}_app
     restart: on-failure
@@ -15,6 +16,7 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres@postgres/${APP_NAME}_development
       TEST_DATABASE_URL: postgresql://postgres@postgres/${APP_NAME}_test
+
   postgres:
     container_name: ${APP_NAME}_db
     image: postgres:13-alpine
@@ -27,5 +29,11 @@ services:
       - ./docker-compose/db_restore:/home/db_restore
     ports:
       - "5433:5432"
+  
+  redis:
+    container_name: ${APP_NAME}_redis
+    image: redis:latest
+    ports:
+      - 6379:6379
 volumes:
   bundle_cache:

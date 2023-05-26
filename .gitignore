@@ -1,0 +1,14 @@
+
+/tmp
+.env
+docker/data-volume
+/docker-compose/postgres
+/tmp/letter_opener
+/log
+
+#webpacker
+node_modules
+.browserslistrc
+babel.config.js
+postcss.config.js
+yarn.lock

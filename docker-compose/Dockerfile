@@ -4,6 +4,7 @@ WORKDIR /app
 
 RUN npm install express
 RUN npm install socket.io
+RUN npm install -g npm@10.7.0
 
 EXPOSE 3000
 CMD ["node", "index.js"]

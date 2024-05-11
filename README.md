@@ -3,10 +3,17 @@ npm
 nodejs
 
 # comandos básicos
-npm init
-npm install express
+app npm init
+app npm install express
+app npm install bcryptjs
+app npm install jsonwebtoken
 
 # iniciando a aplicação
 node app.js
 
-npx sequelize-cli db:migrate
+# criando migração
+app npx sequelize-cli migration:generate --name create-people-table
+app npx sequelize-cli migration:generate --name create-users-table
+
+# migrando modelos
+app npx sequelize-cli db:migrate

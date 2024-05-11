@@ -1,10 +1,10 @@
+
 const express = require('express');
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('./config/config.json');
 
 // Importe o modelo Personagem aqui
 const Personagem = require('./models/personagem');
-
 const app = express();
 app.use(express.json());
 

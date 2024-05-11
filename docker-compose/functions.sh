@@ -197,4 +197,8 @@ function Welcome(){
     echo funções carregadas!
 }
 
+function dua(){
+    docker-compose down && docker-compose up -d
+}
+
 Welcome

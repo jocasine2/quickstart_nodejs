@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/connection');
+const sequelize = require(__dirname + '/../connection');
 
 const Personagem = sequelize.define('Personagem', {
   nome: {
@@ -10,6 +10,8 @@ const Personagem = sequelize.define('Personagem', {
     type: DataTypes.INTEGER,
     allowNull: false
   }
+}, {
+  tableName: 'Personagens'
 });
 
 module.exports = Personagem;

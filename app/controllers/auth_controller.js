@@ -1,9 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user'); // Importe o modelo de usuário aqui
 const Person = require('../models/person'); // Importe o modelo de pessoa aqui
+
+// Função para gerar o token JWT
+const generateToken = (userId, username) => {
+  return jwt.sign(
+    {
+      userId,
+      username
+    },
+    process.env.JWT_SECRET, // Use a chave secreta para assinar o token
+    { expiresIn: '1h' } // Define o tempo de expiração do token
+  );
+};
 
 // Rota para registrar uma nova pessoa e seu usuário
 router.post('/register', async (req, res) => {
@@ -23,7 +36,7 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crie o usuário associado à pessoa
-    const user = await User.create({ username, password: hashedPassword, personId: person.id });
+    const user = await User.create({ username, password: hashedPassword, person_id: person.id });
 
     res.status(201).json({ message: 'Usuário e pessoa registrados com sucesso' });
   } catch (error) {
@@ -32,7 +45,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Rota para fazer login
+// Rota para fazer login e retornar um token JWT
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -51,8 +64,11 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
 
-    // Se as credenciais estiverem corretas, retorne sucesso
-    res.status(200).json({ message: 'Login bem-sucedido' });
+    // Crie um token JWT com informações do usuário usando a função generateToken
+    const token = generateToken(user.id, user.username);
+  
+    // Retorne o token JWT
+    res.status(200).json({ token });
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.status(500).json({ error: 'Erro ao fazer login' });

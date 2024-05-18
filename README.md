@@ -7,6 +7,8 @@ app npm init
 app npm install express
 app npm install bcryptjs
 app npm install jsonwebtoken
+app npm install sequelize
+app npm install cors
 
 # iniciando a aplicação
 node app.js

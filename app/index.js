@@ -1,5 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
+
+// Middleware para habilitar CORS para todas as origens
+app.use(cors());
 
 // Middleware para fazer o parse do corpo das requisições JSON
 app.use(express.json());

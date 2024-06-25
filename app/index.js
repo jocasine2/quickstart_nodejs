@@ -38,17 +38,17 @@ io.on("connection", (client) => {
 
     console.log("Joined: " + user.name);
     // Envia uma mensagem de atualização para o cliente
-    client.emit("update", '${name}, você está conectado ao servidor na sala ${id_sala}');
+    client.emit("update", '${user.name}, você está conectado ao servidor na sala ${user.id_sala}');
 
     
     // Envia uma mensagem de atualização para todos os outros clientes na sala
-    client.broadcast.to(user.id_sala).emit("update", '${name} entrou na mesa.');
+    client.broadcast.to(user.id_sala).emit("update", '${user.name} entrou na mesa.');
   });
 
   // Evento "send" quando um cliente envia uma mensagem
   client.on("send", (user, msg) => {
     // console.log(user);
-    // console.log(msg);
+    console.log(msg);
     // Envia a mensagem para todos os outros clientes na sala
     client.broadcast.to(user.id_sala).emit("chat", user, msg);
   });

@@ -29,25 +29,28 @@ app.use((req, res) => {
 // Lida com eventos de conexão do Socket.IO
 io.on("connection", (client) => {
   // Evento "join" quando um cliente se junta a uma sala
-  client.on("join", (name, foto, id_sala) => {
+  client.on("join", (user) => {
+    console.log(user);
     // Cliente entra na sala especificada
-    client.join(id_sala);
+    client.join(user.id_sala);
     // Armazena o nome do cliente no objeto clients
-    clients[client.id] = name;
+    clients[client.id] = user.name;
 
-    console.log("Joined: " + name);
+    console.log("Joined: " + user.name);
     // Envia uma mensagem de atualização para o cliente
     client.emit("update", '${name}, você está conectado ao servidor na sala ${id_sala}');
 
     
     // Envia uma mensagem de atualização para todos os outros clientes na sala
-    client.broadcast.to(id_sala).emit("update", '${name} entrou na mesa.');
+    client.broadcast.to(user.id_sala).emit("update", '${name} entrou na mesa.');
   });
 
   // Evento "send" quando um cliente envia uma mensagem
-  client.on("send", (msg, foto, id_sala) => {
+  client.on("send", (user, msg) => {
+    // console.log(user);
+    // console.log(msg);
     // Envia a mensagem para todos os outros clientes na sala
-    client.broadcast.to(id_sala).emit("chat", clients[client.id], msg, foto);
+    client.broadcast.to(user.id_sala).emit("chat", user, msg);
   });
 
   // Evento "disconnect" quando um cliente se desconecta

@@ -37,9 +37,11 @@ io.on("connection", (client) => {
 
     console.log("Joined: " + name);
     // Envia uma mensagem de atualização para o cliente
-    client.emit("update", `${name}, você está conectado ao servidor na sala ${id_sala}`);
+    client.emit("update", '${name}, você está conectado ao servidor na sala ${id_sala}');
+
+    
     // Envia uma mensagem de atualização para todos os outros clientes na sala
-    client.broadcast.to(id_sala).emit("update", `${name} entrou na mesa.`);
+    client.broadcast.to(id_sala).emit("update", '${name} entrou na mesa.');
   });
 
   // Evento "send" quando um cliente envia uma mensagem
@@ -53,7 +55,7 @@ io.on("connection", (client) => {
     console.log("Disconnect");
     if (clients[client.id]) {
       // Envia uma mensagem de atualização informando que o cliente saiu
-      io.emit("update", `${clients[client.id]} saiu da mesa.`);
+      io.emit("update", '${clients[client.id]} saiu da mesa.');
     }
     // Remove o cliente do objeto clients
     delete clients[client.id];
@@ -65,5 +67,5 @@ const PORT = 3000;
 
 // Inicia o servidor e escuta na porta definida
 server.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
+  console.log('listening on port ${PORT}');
 });

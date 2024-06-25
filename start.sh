@@ -12,4 +12,4 @@ sudo docker-compose up -d --build
 permissions_update
 
 #sudo docker-compose up -d postgres
-
+app npm install http-status-codes 

@@ -1,5 +1,12 @@
 #!/bin/bash
 
+function getColors(){
+    export red='\033[0;31m'
+    export green='\033[0;32m'
+    export blue='\033[0;34m'
+    export reset='\033[0m'
+}
+getColors
 # Função para verificar e criar o arquivo .env se necessário
 create_env_file() {
   if [ ! -f .env ]; then
@@ -82,10 +89,6 @@ function app_reset(){
     new_app
 }
 
-function app_scaffold_api(){
-    docker-compose run app rails g scaffold $@ --api
-}
-
 function app_scaffold(){
     docker-compose run app rails g scaffold $@
 }
@@ -106,55 +109,8 @@ function db(){
     fi 
 }
 
-function remove_app(){
-    # permissions_update
 
-    #para remover o app criado 
-    sudo rm -rf bin 
-    sudo rm -rf config 
-    sudo rm -rf db 
-    sudo rm -rf lib 
-    sudo rm -rf log 
-    sudo rm -rf public 
-    sudo rm -rf storage 
-    sudo rm -rf test 
-    sudo rm -rf tmp 
-    sudo rm -rf vendor 
-    sudo rm -rf app 
-    sudo rm -rf .gitattributes 
-    sudo rm -rf config.ru 
-    sudo rm -rf package.json 
-    sudo rm -rf Rakefile 
-    sudo rm -rf .ruby-version 
-    sudo rm -rf docker-compose/postgres
-    
-    sudo rm -rf node_modules
-    sudo rm -rf .browserslistrc
-    sudo rm -rf babel.config.js
-    sudo rm -rf postcss.config.js
-    sudo rm -rf yarn.lock
-    sudo rm -rf package-lock.json
-
-}
-
-app_turbolink_remove(){
-   sudo sed -i "10c    <%#= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %> <!--trecho desabilitado pelo start.sh-->" app/views/layouts/application.html.erb
-}
-
- # config.change_headers_on_each_request = true config/initializers/devise_token_auth.rb
-app_config_devise_token_auth(){
-    sudo sed -i "s/# config.change_headers_on_each_request = true/config.change_headers_on_each_request = true/" config/initializers/devise_token_auth.rb
-    sudo sed -i "s/# config.check_current_password_before_update = :attributes/ config.check_current_password_before_update = :password/" config/initializers/devise_token_auth.rb
-    sudo sed -i "s/# config.send_confirmation_email = true/ config.send_confirmation_email = true/" config/initializers/devise_token_auth.rb 
-}
-
-app_config_devise(){
-    sudo sed -i "73c    config.action_mailer.delivery_method = :letter_opener \n config.action_mailer.perform_deliveries = true \n config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }" config/environments/development.rb
-    sudo sed -i "s/config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'/config.mailer_sender = '$APP_NAME@example.com'/" config/initializers/devise.rb
-    sudo sed -i "266c    config.navigational_formats = [:json]" config/initializers/devise.rb
-}
-
-atualiza_nome_app(){
+function atualiza_nome_app(){
    sudo sed -i "1cAPP_NAME="$1 .env
 }
 

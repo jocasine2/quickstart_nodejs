@@ -5,6 +5,8 @@ source docker-compose/functions.sh
 #adicionando usuário ao grupo docker
 user_docker
 
+app npm install bcrypt
+
 #iniciando banco de dados
 sudo docker-compose up -d --build
 

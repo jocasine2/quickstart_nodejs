@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Função para verificar e criar o arquivo .env se necessário
-create_env_file() {
+function create_env_file() {
   if [ ! -f .env ]; then
     cp .env.example .env
     echo -e "Arquivo .env não encontrado, ${green}criado novo .env a partir de .env.example${reset}"
